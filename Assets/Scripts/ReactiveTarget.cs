@@ -6,12 +6,12 @@ using UnityEngine;
 public class ReactiveTarget : MonoBehaviour
 {
     [SerializeField] private ParticleSystem _particles;
-
+    public Coroutine deathAnim { private set; get; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _particles.enableEmission = false;
+        //_particles.enableEmission = false;
     }
 
     // Update is called once per frame
@@ -39,7 +39,7 @@ public class ReactiveTarget : MonoBehaviour
         if (shooter != null) shooter.ChangeFiringState(FireballShooter.FiringState.PAUSED);
         
         //AI dies
-        StartCoroutine(Die());
+        if (deathAnim == null) deathAnim = StartCoroutine(Die());
     }
 
     //coroutine that acts as the death animation

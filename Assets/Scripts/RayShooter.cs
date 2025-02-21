@@ -88,8 +88,10 @@ public class RayShooter : MonoBehaviour
                 //otherwise place a sphere aka bullet
                 if (target != null)
                 {
-                    Debug.Log("target hit");
                     target.ReactToHit();
+                   if (target.deathAnim != null) Messenger.Broadcast(GameEvent.ENEMY_HIT);
+                    Debug.Log("target hit");
+                    
                 }
                 else 
                 {

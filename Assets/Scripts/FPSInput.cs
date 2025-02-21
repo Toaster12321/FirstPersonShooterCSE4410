@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static SmartMovement;
 //used for movement and collision detection
 public class FPSInput : MonoBehaviour
 {
@@ -11,6 +12,27 @@ public class FPSInput : MonoBehaviour
     //creating a varaible that references and stores the character controller in the editor
     //character controller also monitors collision for player
     private CharacterController characterController;
+
+
+    public const float _baseSpeed = 3f;
+
+    //serialize field allows a private var to be able to be viewed in the editor
+    [SerializeField] private MovementState _movementState;
+
+    private void OnEnable()
+    {
+        Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+
+    private void OnDisable()
+    {
+        Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+
+    private void OnSpeedChanged(float value)
+    {
+        speed = _baseSpeed * value;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

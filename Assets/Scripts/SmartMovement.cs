@@ -19,9 +19,25 @@ public class SmartMovement : MonoBehaviour
     public float maxObstacleRange = 5f;
     public float sphereCastRadius = 0.9f;
 
+    public const float _baseSpeed = 3f;
+
     //serialize field allows a private var to be able to be viewed in the editor
     [SerializeField] private MovementState _movementState;
 
+    private void OnEnable()
+    {
+        Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+
+    private void OnDisable()
+    {
+        Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+
+    private void OnSpeedChanged(float value)
+    {
+        movementSpeed = _baseSpeed * value;
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
